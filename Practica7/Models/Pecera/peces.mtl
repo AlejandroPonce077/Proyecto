@@ -1,0 +1,30 @@
+newmtl pecera:___Default
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd Fish_tex.jpg
+map_Ka Fish_tex.jpg
+Ni 1.50
+Ks 0.00 0.00 0.00
+Ns 10.00
+newmtl pecera:___Default2
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd Fish_tex.jpg
+map_Ka Fish_tex.jpg
+Ni 1.50
+Ks 0.00 0.00 0.00
+Ns 10.00
+newmtl pecera:___Default4
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd Fish_tex.jpg
+map_Ka Fish_tex.jpg
+Ni 1.50
+Ks 0.00 0.00 0.00
+Ns 10.00

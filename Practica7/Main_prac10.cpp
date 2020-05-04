@@ -44,7 +44,7 @@ bool firstMouse = true;
 float range = 0.0f;
 float rot = 0.0f;
 float rotS = 0.0f;
-float rotM = 0.0f;
+float rotSilla = 0.0f;
 
 
 // Light attributes
@@ -204,9 +204,11 @@ int main()
 	Shader SkyBoxshader("Shaders/SkyBox.vs", "Shaders/SkyBox.frag");
 
 	Model Compu((char*)"Models/Computadora/Escritorio.obj");
+	Model silla((char*)"Models/silla/silla.obj");
 	Model Cama((char*)"Models/Cama/RPG-BED.obj");
 	Model Sabana((char*)"Models/sabana/sabanita.obj");
 	Model Pecera((char*)"Models/Pecera/pecera.obj");
+	Model peces((char*)"Models/Pecera/peces.obj");
 	Model Pecera2((char*)"Models/Pecera/pecera2.obj");
 	Model lampCompu((char*)"Models/lamparaCompu/lamp2.obj");
 	Model lampara((char*)"Models/lamparaMueble/lmp005.obj");
@@ -544,6 +546,18 @@ int main()
 		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		Compu.Draw(lightingShader);
+
+		//silla
+		view = camera.GetViewMatrix();
+		model = glm::translate(tmp, glm::vec3(-0.5f, 0.0f, -0.1f));
+		model = glm::translate(model, glm::vec3(posX, posY, posZ));
+		model = glm::translate(model, glm::vec3(-5.0f,2.0f,-9.0f));
+		model = glm::rotate(model, glm::radians(270.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(rotSilla), glm::vec3(0.0f, 1.0f, 0.0));
+		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		silla.Draw(lightingShader);
+
 		//Cama
 		view = camera.GetViewMatrix();
 		model = glm::translate(tmp, glm::vec3(-0.5f, 0.0f, -0.1f));
@@ -576,14 +590,23 @@ int main()
 		model = glm::translate(model, glm::vec3(posX, posY+1.0f, posZ));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		lampara.Draw(lightingShader);
-		//pecera
+		//agua
 		view = camera.GetViewMatrix();
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(posX, posY, posZ));
 		model = glm::translate(model, glm::vec3(0.0f, 1.4f, 3.0f));
-		model = glm::rotate(model, glm::radians(rotRodIzq), glm::vec3(1.0f, 0.0f, 1.0));
+		
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		Pecera.Draw(lightingShader);
+
+		//peces
+		view = camera.GetViewMatrix();
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(posX, posY, posZ));
+		model = glm::translate(model, glm::vec3(0.0f, 1.4f, 3.0f));
+		model = glm::rotate(model, glm::radians(rotRodIzq), glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		peces.Draw(lightingShader);
 		//pecera2
 		view = camera.GetViewMatrix();
 		model = glm::mat4(1);
@@ -624,16 +647,16 @@ int main()
 		model = glm::translate(model, glm::vec3(0.0f, 2.5f, 0));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		puerta.Draw(lightingShader);
-		//manija
-		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(posX, posY, posZ));
-		model = glm::translate(model, glm::vec3(0.0f, 10.0f, -10.0f));
-		model = glm::rotate(model, glm::radians(rotM), glm::vec3(1.0f, 0.0f, 0.0));
-		model = glm::rotate(model, glm::radians(rot), glm::vec3(0.0f, 1.0f, 0.0));
-		model = glm::translate(model, glm::vec3(0.0f, 2.5f, 0));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		manija.Draw(lightingShader);
+		////manija
+		//view = camera.GetViewMatrix();
+		//model = glm::mat4(1);
+		//model = glm::translate(model, glm::vec3(posX, posY, posZ));
+		//model = glm::translate(model, glm::vec3(0.0f, 10.0f, -10.0f));
+		//model = glm::rotate(model, glm::radians(rotM), glm::vec3(1.0f, 0.0f, 0.0));
+		//model = glm::rotate(model, glm::radians(rot), glm::vec3(0.0f, 1.0f, 0.0));
+		//model = glm::translate(model, glm::vec3(0.0f, 2.5f, 0));
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//manija.Draw(lightingShader);
 		//cuadro estrellla
 		view = camera.GetViewMatrix();
 		model = glm::mat4(1);
@@ -885,23 +908,15 @@ void DoMovement()
 
 	if (keys[GLFW_KEY_7])
 	{
-		rotM+= 1;
+		rotSilla+= 1;
 
 	}
 
 	if (keys[GLFW_KEY_8])
 	{
-		rotM -= 1;
+		rotSilla -= 1;
 
 	}
-
-	if (keys[GLFW_KEY_9])
-	{
-		if (rotBrDer > -45)
-			rotBrDer -= 1.0f;
-
-	}
-
 
 
 	//Mov Personaje
