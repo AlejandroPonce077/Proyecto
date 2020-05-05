@@ -219,6 +219,11 @@ int main()
 	Model rosa((char*)"Models/Rosa/rosa.obj");
 	Model cuadroEs((char*)"Models/CuadroEstrellas/cuadro.obj");
 	Model Estrellas((char*)"Models/Estrellas/estrellas.obj");
+	Model casa((char*)"Models/Casa/casa.obj");
+	Model chimenea((char*)"Models/chimenea/chimenea.obj");
+	Model cochera((char*)"Models/cochera/cochera.obj");
+	Model ventana((char*)"Models/ventana/ventana.obj");
+	Model ventanaDown((char*)"Models/ventana/ventanaDown.obj");
 	// Build and compile our shader program
 
 	//Inicialización de KeyFrames
@@ -671,6 +676,48 @@ int main()
 		model = glm::translate(model, glm::vec3(10.0f, 2.5f, 0));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		Estrellas.Draw(lightingShader);
+		// casa
+		view = camera.GetViewMatrix();
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(posX, posY, posZ));
+		model = glm::translate(model, glm::vec3(10.0f, 2.5f, 0));
+		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		casa.Draw(lightingShader);
+		// chimenea
+		view = camera.GetViewMatrix();
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(posX, posY, posZ));
+		model = glm::translate(model, glm::vec3(10.0f, 2.5f, 0));
+		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		chimenea.Draw(lightingShader);
+		// cochera
+		view = camera.GetViewMatrix();
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(posX, posY, posZ));
+		model = glm::translate(model, glm::vec3(-10.0f, 2.5f, 0));
+		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		cochera.Draw(lightingShader);
+		// ventana
+		view = camera.GetViewMatrix();
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(posX, posY, posZ));
+		model = glm::translate(model, glm::vec3(10.0f, 2.5f, 0));
+		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		ventana.Draw(lightingShader);
+
+		// ventana abajo
+		view = camera.GetViewMatrix();
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(posX, posY, posZ));
+		model = glm::translate(model, glm::vec3(10.0f, 2.5f, 0));
+		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		ventanaDown.Draw(lightingShader);
+
 
 
 		glBindVertexArray(0);
@@ -946,27 +993,27 @@ void DoMovement()
 	// Camera controls
 	if (keys[GLFW_KEY_W] || keys[GLFW_KEY_UP])
 	{
-		camera.ProcessKeyboard(FORWARD, deltaTime);
+		camera.ProcessKeyboard(FORWARD, deltaTime+1.0f);
 
 	}
 
 	if (keys[GLFW_KEY_S] || keys[GLFW_KEY_DOWN])
 	{
-		camera.ProcessKeyboard(BACKWARD, deltaTime);
+		camera.ProcessKeyboard(BACKWARD, deltaTime+1.0f);
 
 
 	}
 
 	if (keys[GLFW_KEY_A] || keys[GLFW_KEY_LEFT])
 	{
-		camera.ProcessKeyboard(LEFT, deltaTime);
+		camera.ProcessKeyboard(LEFT, deltaTime+1.0f);
 
 
 	}
 
 	if (keys[GLFW_KEY_D] || keys[GLFW_KEY_RIGHT])
 	{
-		camera.ProcessKeyboard(RIGHT, deltaTime);
+		camera.ProcessKeyboard(RIGHT, deltaTime+1.0f);
 	}
 
 
