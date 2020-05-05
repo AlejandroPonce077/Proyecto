@@ -44,7 +44,7 @@ bool firstMouse = true;
 float range = 0.0f;
 float rot = 0.0f;
 float rotS = 0.0f;
-float rotSilla = 0.0f;
+
 
 
 // Light attributes
@@ -58,7 +58,7 @@ GLfloat deltaTime = 0.0f;	// Time between current frame and last frame
 GLfloat lastFrame = 0.0f;  	// Time of last frame
 
 // Keyframes
-float posX = PosIni.x, posY = PosIni.y, posZ = PosIni.z, rotRodIzq = 0, rotRodDer, rotBrIzq = 0, rotBrDer;
+float posX = PosIni.x, posY = PosIni.y, posZ = PosIni.z, rotPeces = 0, rotPuerta, rotPuertaC, rotSab = 0, rotSilla=0;
 
 #define MAX_FRAMES 9
 int i_max_steps = 190;
@@ -72,10 +72,11 @@ typedef struct _frame
 	float incX;		//Variable para IncrementoX
 	float incY;		//Variable para IncrementoY
 	float incZ;		//Variable para IncrementoZ
-	float rotRodIzq;
-	float rotRodDer;
-	float rotBrIzq;
-	float rotBrDer;
+	float rotPeces;
+	float rotPuerta;
+	float rotPuertaC;
+	float rotSab;
+	float rotSilla;
 	float rotInc;
 	float rotInc2;
 	float rotInc3;
@@ -110,10 +111,11 @@ void saveFrame(void)
 	KeyFrame[FrameIndex].posY = posY;
 	KeyFrame[FrameIndex].posZ = posZ;
 
-	KeyFrame[FrameIndex].rotRodIzq = rotRodIzq;
-	KeyFrame[FrameIndex].rotRodDer = rotRodDer;
-	KeyFrame[FrameIndex].rotBrIzq = rotBrIzq;
-	KeyFrame[FrameIndex].rotBrDer = rotBrDer;
+	KeyFrame[FrameIndex].rotPeces = rotPeces;
+	KeyFrame[FrameIndex].rotPuerta = rotPuerta;
+	KeyFrame[FrameIndex].rotPuertaC = rotPuertaC; 
+	KeyFrame[FrameIndex].rotSab = rotSab;
+	KeyFrame[FrameIndex].rotSilla = rotSilla;
 
 	FrameIndex++;
 }
@@ -124,10 +126,11 @@ void resetElements(void)
 	posY = KeyFrame[0].posY;
 	posZ = KeyFrame[0].posZ;
 
-	rotRodIzq = KeyFrame[0].rotRodIzq;	
-	KeyFrame[FrameIndex].rotRodDer = rotRodDer;
-	KeyFrame[FrameIndex].rotBrIzq = rotBrIzq;
-	KeyFrame[FrameIndex].rotBrDer = rotBrDer;
+	rotPeces = KeyFrame[0].rotPeces;
+	KeyFrame[FrameIndex].rotPuerta = rotPuerta;
+	KeyFrame[FrameIndex].rotPuertaC = rotPuertaC;
+	KeyFrame[FrameIndex].rotSab = rotSab;
+	KeyFrame[FrameIndex].rotSilla = rotSilla;
 
 }
 
@@ -138,10 +141,10 @@ void interpolation(void)
 	KeyFrame[playIndex].incY = (KeyFrame[playIndex + 1].posY - KeyFrame[playIndex].posY) / i_max_steps;
 	KeyFrame[playIndex].incZ = (KeyFrame[playIndex + 1].posZ - KeyFrame[playIndex].posZ) / i_max_steps;
 
-	KeyFrame[playIndex].rotInc = (KeyFrame[playIndex + 1].rotRodIzq - KeyFrame[playIndex].rotRodIzq) / i_max_steps;
-	KeyFrame[playIndex].rotInc2 = (KeyFrame[playIndex + 1].rotRodDer - KeyFrame[playIndex].rotRodDer) / i_max_steps;
-	KeyFrame[playIndex].rotInc3 = (KeyFrame[playIndex + 1].rotBrIzq - KeyFrame[playIndex].rotBrIzq) / i_max_steps;
-	KeyFrame[playIndex].rotInc4 = (KeyFrame[playIndex + 1].rotBrDer - KeyFrame[playIndex].rotBrDer) / i_max_steps;
+	KeyFrame[playIndex].rotInc = (KeyFrame[playIndex + 1].rotPeces - KeyFrame[playIndex].rotPeces) / i_max_steps;
+	KeyFrame[playIndex].rotInc2 = (KeyFrame[playIndex + 1].rotPuerta - KeyFrame[playIndex].rotPuerta) / i_max_steps;
+	KeyFrame[playIndex].rotInc3 = (KeyFrame[playIndex + 1].rotSab - KeyFrame[playIndex].rotSab) / i_max_steps;
+	KeyFrame[playIndex].rotInc4 = (KeyFrame[playIndex + 1].rotSilla - KeyFrame[playIndex].rotSilla) / i_max_steps;
 
 }
 
@@ -160,7 +163,7 @@ int main()
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
 	// Create a GLFWwindow object that we can use for GLFW's functions
-	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Practica 10", nullptr, nullptr);
+	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "PROYECTO GRAFICA LABORATORIO", nullptr, nullptr);
 
 	if (nullptr == window)
 	{
@@ -223,6 +226,7 @@ int main()
 	Model chimenea((char*)"Models/chimenea/chimenea.obj");
 	Model cochera((char*)"Models/cochera/cochera.obj");
 	Model ventana((char*)"Models/ventana/ventana.obj");
+	Model puertaC((char*)"Models/puertaCasa/puertaCasa.obj");
 	Model ventanaDown((char*)"Models/ventana/ventanaDown.obj");
 	// Build and compile our shader program
 
@@ -234,7 +238,7 @@ int main()
 		KeyFrame[i].incX = 0;
 		KeyFrame[i].incY = 0;
 		KeyFrame[i].incZ = 0;
-		KeyFrame[i].rotRodIzq = 0;
+		KeyFrame[i].rotPeces = 0;
 		KeyFrame[i].rotInc = 0;
 	}
 
@@ -455,7 +459,7 @@ int main()
 		// == ==========================
 		// Directional light
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.direction"), -0.2f, -1.0f, -0.3f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.ambient"), 0.0f, 1.0f, 1.0f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.ambient"), 1.0f, 1.0f, 1.0f);
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.diffuse"), 0.4f, 0.4f, 0.4f);
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.specular"), 0.5f, 0.5f, 0.5f);
 
@@ -577,7 +581,7 @@ int main()
 		model = glm::translate(tmp, glm::vec3(-0.5f, 0.0f, -0.1f));
 		model = glm::translate(model, glm::vec3(posX, posY, posZ));
 		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
-		model = glm::rotate(model, glm::radians(rotS), glm::vec3(1.0f, 0.0f, 0.0));
+		model = glm::rotate(model, glm::radians(rotSab), glm::vec3(1.0f, 0.0f, 0.0));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		Sabana.Draw(lightingShader);
 
@@ -609,7 +613,7 @@ int main()
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(posX, posY, posZ));
 		model = glm::translate(model, glm::vec3(0.0f, 1.4f, 3.0f));
-		model = glm::rotate(model, glm::radians(rotRodIzq), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(rotPeces), glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		peces.Draw(lightingShader);
 		//pecera2
@@ -648,7 +652,7 @@ int main()
 		view = camera.GetViewMatrix();
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(posX, posY, posZ));
-		model = glm::rotate(model, glm::radians(rot), glm::vec3(0.0f, 1.0f, 0.0));
+		model = glm::rotate(model, glm::radians(rotPuerta), glm::vec3(0.0f, 1.0f, 0.0));
 		model = glm::translate(model, glm::vec3(0.0f, 2.5f, 0));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		puerta.Draw(lightingShader);
@@ -662,6 +666,7 @@ int main()
 		//model = glm::translate(model, glm::vec3(0.0f, 2.5f, 0));
 		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		//manija.Draw(lightingShader);
+
 		//cuadro estrellla
 		view = camera.GetViewMatrix();
 		model = glm::mat4(1);
@@ -718,8 +723,18 @@ int main()
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		ventanaDown.Draw(lightingShader);
 
+		// puerta principal casa
+		view = camera.GetViewMatrix();
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(posX, posY, posZ));
+		model = glm::translate(model, glm::vec3(-6.0f, -20.0f, 24.0f));
+		model = glm::scale(model, glm::vec3(0.9f, 0.85f, 1.0f));
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0));
 
-
+		model = glm::rotate(model, glm::radians(rotPuertaC), glm::vec3(0.0f, 1.0f, 0.0));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		puerta.Draw(lightingShader);
+		
 		glBindVertexArray(0);
 
 
@@ -821,10 +836,11 @@ void animacion()
 			posY += KeyFrame[playIndex].incY;
 			posZ += KeyFrame[playIndex].incZ;
 
-			rotRodIzq += KeyFrame[playIndex].rotInc;				
-			rotRodDer += KeyFrame[playIndex].rotInc2;
-			rotBrIzq += KeyFrame[playIndex].rotInc3;
-			rotBrDer += KeyFrame[playIndex].rotInc4;
+			rotPeces += KeyFrame[playIndex].rotInc;
+			rotPuerta += KeyFrame[playIndex].rotInc2;
+			rotPuertaC += KeyFrame[playIndex].rotInc2;
+			rotSab += KeyFrame[playIndex].rotInc3;
+			rotSilla += KeyFrame[playIndex].rotInc4;
 
 			i_curr_steps++;
 		}
@@ -919,24 +935,24 @@ void DoMovement()
 	if (keys[GLFW_KEY_1])
 	{
 
-		rot += 1;
+		rotPuerta += 1;
 
 	}
 
 	if (keys[GLFW_KEY_2])
 	{
-		rot -= 1;
+		rotPuerta -= 1;
 
 	}
 
 	if (keys[GLFW_KEY_3])
 	{
-		rotRodIzq += 0.1;
+		rotPeces += 0.1;
 
 	}
 	if (keys[GLFW_KEY_4])
 	{
-		rotRodIzq -= 0.1;
+		rotPeces -= 0.1;
 
 
 	}
@@ -944,12 +960,12 @@ void DoMovement()
 	if (keys[GLFW_KEY_5])
 	{
 
-		rotS += 1;
+		rotSab += 1;
 	}
 
 	if (keys[GLFW_KEY_6])
 	{
-		rotS -= 1;
+		rotSab -= 1;
 
 	}
 
@@ -964,6 +980,20 @@ void DoMovement()
 		rotSilla -= 1;
 
 	}
+
+	if (keys[GLFW_KEY_9])
+	{
+
+		rotPuertaC += 1;
+
+	}
+
+	if (keys[GLFW_KEY_0])
+	{
+		rotPuertaC -= 1;
+
+	}
+
 
 
 	//Mov Personaje
