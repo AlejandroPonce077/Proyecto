@@ -58,7 +58,11 @@ GLfloat deltaTime = 0.0f;	// Time between current frame and last frame
 GLfloat lastFrame = 0.0f;  	// Time of last frame
 
 // Keyframes
+<<<<<<< HEAD
 float posX = PosIni.x, posY = PosIni.y, posZ = PosIni.z, rotPeces = 0, rotPuerta, rotPuertaC, rotSab = 0, rotSilla=0;
+=======
+float posX = PosIni.x, posY = PosIni.y, posZ = PosIni.z, rotPeces = 0, rotPuerta, rotSab = 0, rotSilla=0;
+>>>>>>> 6845c09d53e3be448056e368cedc9a78e321a2dd
 
 #define MAX_FRAMES 9
 int i_max_steps = 190;
@@ -74,7 +78,10 @@ typedef struct _frame
 	float incZ;		//Variable para IncrementoZ
 	float rotPeces;
 	float rotPuerta;
+<<<<<<< HEAD
 	float rotPuertaC;
+=======
+>>>>>>> 6845c09d53e3be448056e368cedc9a78e321a2dd
 	float rotSab;
 	float rotSilla;
 	float rotInc;
@@ -113,7 +120,10 @@ void saveFrame(void)
 
 	KeyFrame[FrameIndex].rotPeces = rotPeces;
 	KeyFrame[FrameIndex].rotPuerta = rotPuerta;
+<<<<<<< HEAD
 	KeyFrame[FrameIndex].rotPuertaC = rotPuertaC; 
+=======
+>>>>>>> 6845c09d53e3be448056e368cedc9a78e321a2dd
 	KeyFrame[FrameIndex].rotSab = rotSab;
 	KeyFrame[FrameIndex].rotSilla = rotSilla;
 
@@ -128,7 +138,10 @@ void resetElements(void)
 
 	rotPeces = KeyFrame[0].rotPeces;
 	KeyFrame[FrameIndex].rotPuerta = rotPuerta;
+<<<<<<< HEAD
 	KeyFrame[FrameIndex].rotPuertaC = rotPuertaC;
+=======
+>>>>>>> 6845c09d53e3be448056e368cedc9a78e321a2dd
 	KeyFrame[FrameIndex].rotSab = rotSab;
 	KeyFrame[FrameIndex].rotSilla = rotSilla;
 
@@ -230,7 +243,7 @@ int main()
 	Model ventanaDown((char*)"Models/ventana/ventanaDown.obj");
 	// Build and compile our shader program
 
-	//Inicialización de KeyFrames
+	//InicializaciÃ³n de KeyFrames
 
 	for (int i = 0; i < MAX_FRAMES; i++)
 	{
@@ -585,7 +598,7 @@ int main()
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		Sabana.Draw(lightingShader);
 
-		//lampára compu
+		//lampÃ¡ra compu
 		view = camera.GetViewMatrix();
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(posX, posY, posZ));
@@ -838,7 +851,10 @@ void animacion()
 
 			rotPeces += KeyFrame[playIndex].rotInc;
 			rotPuerta += KeyFrame[playIndex].rotInc2;
+<<<<<<< HEAD
 			rotPuertaC += KeyFrame[playIndex].rotInc2;
+=======
+>>>>>>> 6845c09d53e3be448056e368cedc9a78e321a2dd
 			rotSab += KeyFrame[playIndex].rotInc3;
 			rotSilla += KeyFrame[playIndex].rotInc4;
 
