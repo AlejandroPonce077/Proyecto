@@ -47,6 +47,7 @@ float rotS = 0.0f;
 
 
 
+
 // Light attributes
 glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
 glm::vec3 PosIni(-95.0f, 1.0f, -45.0f);
@@ -58,9 +59,9 @@ GLfloat deltaTime = 0.0f;	// Time between current frame and last frame
 GLfloat lastFrame = 0.0f;  	// Time of last frame
 
 // Keyframes
-float posX = PosIni.x, posY = PosIni.y, posZ = PosIni.z, rotPeces = 0, rotPuerta, rotPuertaC, rotSab = 0, rotSilla=0;
+float posX = PosIni.x, posY = PosIni.y, posZ = PosIni.z, rotPeces = 0, rotPuerta, rotPuertaC, rotSab = 0, rotSilla = 0, movDexterX, movDexterY,movDexterZ;
 
-#define MAX_FRAMES 9
+#define MAX_FRAMES 10
 int i_max_steps = 190;
 int i_curr_steps = 0;
 typedef struct _frame
@@ -77,6 +78,9 @@ typedef struct _frame
 	float rotPuertaC;
 	float rotSab;
 	float rotSilla;
+	float movDexterX;
+	float movDexterY;
+	float movDexterZ;
 	float rotInc;
 	float rotInc2;
 	float rotInc3;
@@ -91,14 +95,14 @@ int playIndex = 0;
 
 // Positions of the point lights
 glm::vec3 pointLightPositions[] = {
-	glm::vec3(posX,posY,posZ),
-	glm::vec3(0,0,0),
+	glm::vec3(posX-5.1f,posY+17.0f,posZ-26.7F),
+	glm::vec3(posX -15.5f,posY + 12.5f,posZ),
 	glm::vec3(0,0,0),
 	glm::vec3(0,0,0)
 };
 
 glm::vec3 LightP1;
-
+glm::vec3 LightP2;
 
 
 
@@ -116,7 +120,10 @@ void saveFrame(void)
 	KeyFrame[FrameIndex].rotPuertaC = rotPuertaC; 
 	KeyFrame[FrameIndex].rotSab = rotSab;
 	KeyFrame[FrameIndex].rotSilla = rotSilla;
-
+	KeyFrame[FrameIndex].movDexterX = movDexterX;
+	KeyFrame[FrameIndex].movDexterY = movDexterY;
+	KeyFrame[FrameIndex].movDexterZ = movDexterZ;
+	
 	FrameIndex++;
 }
 
@@ -131,6 +138,9 @@ void resetElements(void)
 	KeyFrame[FrameIndex].rotPuertaC = rotPuertaC;
 	KeyFrame[FrameIndex].rotSab = rotSab;
 	KeyFrame[FrameIndex].rotSilla = rotSilla;
+	KeyFrame[FrameIndex].movDexterX = movDexterX;
+	KeyFrame[FrameIndex].movDexterY = movDexterY;
+	KeyFrame[FrameIndex].movDexterZ = movDexterZ;
 
 }
 
@@ -145,7 +155,9 @@ void interpolation(void)
 	KeyFrame[playIndex].rotInc2 = (KeyFrame[playIndex + 1].rotPuerta - KeyFrame[playIndex].rotPuerta) / i_max_steps;
 	KeyFrame[playIndex].rotInc3 = (KeyFrame[playIndex + 1].rotSab - KeyFrame[playIndex].rotSab) / i_max_steps;
 	KeyFrame[playIndex].rotInc4 = (KeyFrame[playIndex + 1].rotSilla - KeyFrame[playIndex].rotSilla) / i_max_steps;
-
+	KeyFrame[playIndex].rotInc4 = (KeyFrame[playIndex + 1].movDexterX - KeyFrame[playIndex].movDexterX) / i_max_steps;
+	KeyFrame[playIndex].rotInc4 = (KeyFrame[playIndex + 1].movDexterY - KeyFrame[playIndex].movDexterY) / i_max_steps;
+	KeyFrame[playIndex].rotInc4 = (KeyFrame[playIndex + 1].movDexterZ - KeyFrame[playIndex].movDexterZ) / i_max_steps;
 }
 
 
@@ -218,19 +230,22 @@ int main()
 	Model marco((char*)"Models/marco/marco.obj");
 	Model mueble((char*)"Models/Mueble/mueble.obj");
 	Model puerta((char*)"Models/Puerta/puerta.obj");
-	Model manija((char*)"Models/manija/manija.obj");
 	Model rosa((char*)"Models/Rosa/rosa.obj");
 	Model cuadroEs((char*)"Models/CuadroEstrellas/cuadro.obj");
 	Model Estrellas((char*)"Models/Estrellas/estrellas.obj");
-	Model casa((char*)"Models/Casa/casa.obj");
+	Model casa((char*)"Models/casa2/casa2.obj");
+	Model muro((char*)"Models/PMURO/murillo.obj");
 	Model chimenea((char*)"Models/chimenea/chimenea.obj");
 	Model cochera((char*)"Models/cochera/cochera.obj");
 	Model ventana((char*)"Models/ventana/ventana.obj");
 	Model puertaC((char*)"Models/puertaCasa/puertaCasa.obj");
 	Model ventanaDown((char*)"Models/ventana/ventanaDown.obj");
+	Model Dexter((char*)"Models/Dexter/Dexter/Dexter.obj");
+
+
 	// Build and compile our shader program
 
-	//InicializaciÃ³n de KeyFrames
+	//Inicialización de KeyFrames
 
 	for (int i = 0; i < MAX_FRAMES; i++)
 	{
@@ -465,7 +480,7 @@ int main()
 
 
 		// Point light 1
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].position"), pointLightPositions[0].x, pointLightPositions[0].y, pointLightPositions[0].z);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].position"), pointLightPositions[0].x, pointLightPositions[0].y, pointLightPositions[0].z); 
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].ambient"), 0.05f, 0.05f, 0.05f);
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].diffuse"), LightP1.x, LightP1.y, LightP1.z);
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].specular"), LightP1.x, LightP1.y, LightP1.z);
@@ -572,9 +587,18 @@ int main()
 		model = glm::translate(tmp, glm::vec3(-0.5f, 0.0f, -0.1f));
 		model = glm::translate(model, glm::vec3(posX, posY, posZ));
 		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
+
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		Cama.Draw(lightingShader);
-
+		//DEXTER
+		view = camera.GetViewMatrix();
+		model = glm::translate(tmp, glm::vec3(1.5f, 1.0f, 2.5f));
+		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		
+		model = glm::scale(model, glm::vec3(0.15, 0.15f, 0.15f));
+		model = glm::translate(model, glm::vec3(posX + movDexterX, posY+movDexterY, posZ + movDexterZ));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		Dexter.Draw(lightingShader);
 		//sabanita
 		view = camera.GetViewMatrix();
 		
@@ -585,7 +609,7 @@ int main()
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		Sabana.Draw(lightingShader);
 
-		//lampÃ¡ra compu
+		//lampára compu
 		view = camera.GetViewMatrix();
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(posX, posY, posZ));
@@ -595,18 +619,18 @@ int main()
 
 		//lampara
 		view = camera.GetViewMatrix();
-		model = glm::translate(tmp, glm::vec3(0.5f, 0.0f, -0.1f));
+		model = glm::translate(tmp, glm::vec3(-1.5f, 0.0f, -0.1f));
 		model = glm::translate(model, glm::vec3(posX, posY+1.0f, posZ));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		lampara.Draw(lightingShader);
-		//agua
+		//pecera
 		view = camera.GetViewMatrix();
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(posX, posY, posZ));
 		model = glm::translate(model, glm::vec3(0.0f, 1.4f, 3.0f));
-		
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		Pecera.Draw(lightingShader);
+
 
 		//peces
 		view = camera.GetViewMatrix();
@@ -616,7 +640,7 @@ int main()
 		model = glm::rotate(model, glm::radians(rotPeces), glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		peces.Draw(lightingShader);
-		//pecera2
+		//AGUA
 		view = camera.GetViewMatrix();
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(posX, posY, posZ));
@@ -644,7 +668,7 @@ int main()
 		view = camera.GetViewMatrix();
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(posX, posY, posZ));
-		model = glm::translate(model, glm::vec3(0.0f, 2.5f, 0));
+		model = glm::translate(model, glm::vec3(-1.0f, 2.5f, 0));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		mueble.Draw(lightingShader);
 
@@ -656,39 +680,39 @@ int main()
 		model = glm::translate(model, glm::vec3(0.0f, 2.5f, 0));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		puerta.Draw(lightingShader);
-		////manija
-		//view = camera.GetViewMatrix();
-		//model = glm::mat4(1);
-		//model = glm::translate(model, glm::vec3(posX, posY, posZ));
-		//model = glm::translate(model, glm::vec3(0.0f, 10.0f, -10.0f));
-		//model = glm::rotate(model, glm::radians(rotM), glm::vec3(1.0f, 0.0f, 0.0));
-		//model = glm::rotate(model, glm::radians(rot), glm::vec3(0.0f, 1.0f, 0.0));
-		//model = glm::translate(model, glm::vec3(0.0f, 2.5f, 0));
-		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		//manija.Draw(lightingShader);
+
 
 		//cuadro estrellla
 		view = camera.GetViewMatrix();
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(posX, posY, posZ));
-		model = glm::translate(model, glm::vec3(10.0f, 2.5f, 0));
+		model = glm::translate(model, glm::vec3(10.0f, 1.5f, 7.0f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		cuadroEs.Draw(lightingShader);
 		// estrelllas
 		view = camera.GetViewMatrix();
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(posX, posY, posZ));
-		model = glm::translate(model, glm::vec3(10.0f, 2.5f, 0));
+		model = glm::translate(model, glm::vec3(10.0f, 1.5f, 7.0f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		Estrellas.Draw(lightingShader);
 		// casa
 		view = camera.GetViewMatrix();
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(posX, posY, posZ));
-		model = glm::translate(model, glm::vec3(10.0f, 2.5f, 0));
+		model = glm::translate(model, glm::vec3(10.0f, 2.0f, 0));
 		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		casa.Draw(lightingShader);
+		// MURO
+		view = camera.GetViewMatrix();
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(posX, posY, posZ));
+		model = glm::translate(model, glm::vec3(10.0f, 2.5f, 0));
+		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		muro.Draw(lightingShader);
+
 		// chimenea
 		view = camera.GetViewMatrix();
 		model = glm::mat4(1);
@@ -734,6 +758,7 @@ int main()
 		model = glm::rotate(model, glm::radians(rotPuertaC), glm::vec3(0.0f, 1.0f, 0.0));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		puerta.Draw(lightingShader);
+
 		
 		glBindVertexArray(0);
 
@@ -903,7 +928,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode
 	{
 		active = !active;
 		if (active)
-			LightP1 = glm::vec3(1.0f, 0.0f, 0.0f);
+			LightP1 = glm::vec3(0.96f, 1.0f, 0.44f);
 		else
 			LightP1 = glm::vec3(0.0f, 0.0f, 0.0f);
 	}
@@ -994,6 +1019,53 @@ void DoMovement()
 
 	}
 
+	if (keys[GLFW_KEY_Y])
+	{
+		movDexterX += 3;
+
+	}
+	if (keys[GLFW_KEY_H])
+	{
+		movDexterX -= 3;
+
+	}
+	if (keys[GLFW_KEY_T])
+	{
+		movDexterZ += 3;
+
+	}
+	if (keys[GLFW_KEY_G])
+	{
+		movDexterZ -= 3;
+
+	}
+	if (keys[GLFW_KEY_R])
+	{
+		movDexterY += 3;
+
+	}
+	if (keys[GLFW_KEY_F])
+	{
+		movDexterY -= 3;
+
+	}
+
+
+	if (keys[GLFW_KEY_M])
+	{
+		pointLightPositions[2].x += 0.1f;
+		pointLightPositions[2].y += 0.1f;
+		pointLightPositions[2].z += 0.1f;
+	}
+	if (keys[GLFW_KEY_N])
+	{
+		pointLightPositions[2].x -= 0.1f;
+		pointLightPositions[2].y -= 0.1f;
+		pointLightPositions[2].z -= 0.1f;
+	}
+
+
+
 
 	// Camera controls
 	if (keys[GLFW_KEY_W] || keys[GLFW_KEY_UP])
@@ -1024,3 +1096,5 @@ void DoMovement()
 
 
 }
+
+

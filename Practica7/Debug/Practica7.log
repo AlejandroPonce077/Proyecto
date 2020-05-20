@@ -1,11 +1,11 @@
 ﻿  Main_prac10.cpp
-C:\Users\Ponce\Desktop\Prac11\Practica7\Main_prac10.cpp(422,24): warning C4244: 'inicializando': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-C:\Users\Ponce\Desktop\Prac11\Practica7\Main_prac10.cpp(831,11): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-C:\Users\Ponce\Desktop\Prac11\Practica7\Main_prac10.cpp(832,11): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-C:\Users\Ponce\Desktop\Prac11\Practica7\Main_prac10.cpp(836,18): warning C4244: 'inicializando': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-C:\Users\Ponce\Desktop\Prac11\Practica7\Main_prac10.cpp(837,18): warning C4244: 'inicializando': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-C:\Users\Ponce\Desktop\Prac11\Practica7\Main_prac10.cpp(839,10): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-C:\Users\Ponce\Desktop\Prac11\Practica7\Main_prac10.cpp(840,10): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-C:\Users\Ponce\Desktop\Prac11\Practica7\Main_prac10.cpp(864,19): warning C4305: '+=': truncamiento de 'double' a 'float'
-C:\Users\Ponce\Desktop\Prac11\Practica7\Main_prac10.cpp(869,19): warning C4305: '-=': truncamiento de 'double' a 'float'
-  Practica7.vcxproj -> C:\Users\Ponce\Desktop\Prac11\Debug\Practica7.exe
+C:\Users\Ponce\Desktop\PROYECTORECUPERACION(TRABAJACONEL)\Practica7\Main_prac10.cpp(448,24): warning C4244: 'inicializando': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\Ponce\Desktop\PROYECTORECUPERACION(TRABAJACONEL)\Practica7\Main_prac10.cpp(942,11): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\Ponce\Desktop\PROYECTORECUPERACION(TRABAJACONEL)\Practica7\Main_prac10.cpp(943,11): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\Ponce\Desktop\PROYECTORECUPERACION(TRABAJACONEL)\Practica7\Main_prac10.cpp(947,18): warning C4244: 'inicializando': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\Ponce\Desktop\PROYECTORECUPERACION(TRABAJACONEL)\Practica7\Main_prac10.cpp(948,18): warning C4244: 'inicializando': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\Ponce\Desktop\PROYECTORECUPERACION(TRABAJACONEL)\Practica7\Main_prac10.cpp(950,10): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\Ponce\Desktop\PROYECTORECUPERACION(TRABAJACONEL)\Practica7\Main_prac10.cpp(951,10): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\Ponce\Desktop\PROYECTORECUPERACION(TRABAJACONEL)\Practica7\Main_prac10.cpp(975,18): warning C4305: '+=': truncamiento de 'double' a 'float'
+C:\Users\Ponce\Desktop\PROYECTORECUPERACION(TRABAJACONEL)\Practica7\Main_prac10.cpp(980,18): warning C4305: '-=': truncamiento de 'double' a 'float'
+  Practica7.vcxproj -> C:\Users\Ponce\Desktop\PROYECTORECUPERACION(TRABAJACONEL)\Debug\Practica7.exe

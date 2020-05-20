@@ -163,8 +163,8 @@
     <ClCompile Include="Main_prac10.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shaders\SkyBox.frag" />
-    <None Include="Shaders\SkyBox.vs" />
+    <None Include="SkyBox.frag" />
+    <None Include="SkyBox.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

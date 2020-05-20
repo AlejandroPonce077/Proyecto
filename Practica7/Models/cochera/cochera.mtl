@@ -1,3 +1,10 @@
+newmtl casa2:lambert7SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd crashNeb.jpg
+Ni 1.00
 newmtl cochera:initialShadingGroup
 illum 4
 Kd 0.50 0.50 0.50
@@ -18,6 +25,13 @@ Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 map_Kd Wooden.jpg
 Ni 1.00
+newmtl cochera:lambert8SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd azulArtico.jpg
+Ni 1.00
 newmtl cochera:lambert12SG
 illum 4
 Kd 0.00 0.00 0.00
@@ -25,7 +39,7 @@ Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 map_Kd rosa.jpg
 Ni 1.00
-newmtl lambert5SG
+newmtl cochera:lambert12SG2
 illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
